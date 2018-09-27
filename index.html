@@ -1,295 +1,64 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.1/mustache.min.js"></script>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.1/mustache.min.js"></script>
 
-<style>
-.sheet-block-page {
-    padding-right: 5px;
-    padding-left: 0;
-    height: 100%;
-}
-
-.sheet-block-page:last-child {
-    padding-right: 0;
-}
-
-.sheet-block-head {
-    background-color: #f8fafd;
-    border: 1px solid #e9f0f4;
-    font-weight: bold;
-    font-size: 16px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.sheet-block-body {
-    background-color: #fff;
-    font-size: 16px;
-    border: 1px solid #e9f0f4;
-    height: 100%;
-    overflow: scroll;
-}
-
-.sheet-block-item-bk {
-    margin: 20px 0 0 0;
-    background-color: #c9e653;
-    border: 2px double #e9f0f4;
-    cursor: pointer;
-    min-width: 120px;
-}
-
-.sheet-block-item-text {
-    background-color: #fff;
-    margin-left: 10px;
-    padding: 10px 0 10px 10px;
-}
-
-.sheet-preview {
-    box-shadow: 0 3px 3px #a8aaab;
-    margin-top: 10px;
-    font-size: 12px;
-}
-
-.sheet-preview.over {
-    border-top: 3px dashed #c9e653;
-    padding-top: 5px;
-}
-
-.sheet-preview-head {
-    display: flex;
-    justify-content: space-between;
-}
-
-.wh-100 {
-    width: 100%;
-    height: 100%;
-}
-
-.z-bottom {
-    z-index: -1;
-    position: relative;
-}
-
-.btn-collapse {
-    font-size: 12px;
-}
-</style>
-
-<div class='row mx-0'>
-    <div id="ui-blocks" class='col-3 sheet-block-page'>
-        <div class='sheet-block-head col-12'>
-            Card List
-        </div>
-        <div class='sheet-block-body col-12'>
-        </div>
-    </div>
-    <div class='col-6 sheet-block-page'>
-        <div class='sheet-block-head col-12'>
-            Card Preview
-        </div>
-        <div class='sheet-block-body col-12'>
-            <div id="div-preview" class="wh-100">
+        <link rel="stylesheet" href="./sheet.css">
+    </head>
+    <body>
+        <div class='row mx-0'>
+            <div id="ui-blocks" class='col-3 sheet-block-page'>
+                <div class='sheet-block-head col-12'>
+                    Card List
+                </div>
+                <div class='sheet-block-body col-12'>
+                </div>
+            </div>
+            <div class='col-6 sheet-block-page'>
+                <div class='sheet-block-head col-12'>
+                    Card Preview
+                </div>
+                <div class='sheet-block-body col-12'>
+                    <div id="div-preview" class="wh-100">
+                    </div>
+                </div>
+            </div>
+            <div class='col-3 sheet-block-page'>
+                <div class='sheet-block-head col-12'>
+                    Configuration
+                </div>
+                <div class='sheet-block-body col-12'>
+                </div>
             </div>
         </div>
-    </div>
-    <div class='col-3 sheet-block-page'>
-        <div class='sheet-block-head col-12'>
-            Configuration
-        </div>
-        <div class='sheet-block-body col-12'>
-        </div>
-    </div>
-</div>
 
-<script id="block-template" type="x-tmpl-mustache">
-    <div class='col-12 pl-0'>
-        <div data-id="{{data_id}}" class='sheet-block-item-bk' draggable="true">
-            <div class='sheet-block-item-text'>
-                {{block_title}}
+        <script id="block-template" type="x-tmpl-mustache">
+            <div class='col-12 pl-0'>
+                <div data-id="{{data_id}}" preview-id="{{preview_id}}" class='sheet-block-item-bk' draggable="true">
+                    <div class='sheet-block-item-text'>
+                        {{block_title}}
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</script>
-
-<script id="preview-template" type="x-tmpl-mustache">
-    <div class="sheet-preview" data-id="{{data_id}}" draggable="true">
-        <div class="p-2 sheet-preview-head">
-            <div class=""><b>{{preview_title}}</b></div>
-            <div class="">
-                <button type="button" class="btn btn-primary btn-sm btn-block btn-collapse">Collapse</button>
-            </div>
-        </div>
-        <div>
-            <img src="./{{data_id}}.jpg" alt="{{data_id}}.jpg" height="150" width="150">
-        </div>
-    </div>
-</script>
-
-<script>
-    var Sheet = null;
-    (function($){
-        Sheet = {
-            preview_template: $('#preview-template').html(),
-            block_template: $('#block-template').html(),
-            drag_data: null,
-
-            add_preview: function(title, data_id, target) {
-                var self = this;
-                var view = $(Mustache.render(this.preview_template, {data_id: data_id, preview_title: title}));
-                self.init_preview(view);
-                view.appendTo(target);
-            },
-
-            init_preview: function(view) {
-                var self = this;
-
-                view.find('.btn-collapse').on('click', function(e){
-                    view.remove();
-                    self.show_item(view.attr('data-id'));
-                });
-
-                view.on('dragstart', function(e){
-                    e.stopPropagation();
-                    self.drag_data = {"preview-jQ": view};
-                    $(e.currentTarget).css('opacity', 0.4);
-                });
-
-                view.on('dragend', function(e){
-                    e.preventDefault();
-                    e.stopPropagation();
-                    var dragged = $(e.currentTarget);
-                    dragged.css('opacity', 1.0);
-                    dragged.removeClass('over');
-                });
-
-                view.on('dragover', function(e){
-                    e.preventDefault();
-                    e.stopPropagation();
-                    $(e.currentTarget).addClass('over');
-                });
-
-                view.on('dragleave', function(e){
-                    e.preventDefault();
-                    e.stopPropagation();
-                    $(e.currentTarget).removeClass('over');
-                });
-
-                view.on('drop', function(e){
-                    e.preventDefault();
-                    e.stopPropagation();
-                    var dropped = $(e.currentTarget);
-                    dropped.removeClass('over');
-                    if(!self.drag_data) {
-                        return;
-                    }
-
-                    var dragged = self.drag_data['preview-jQ'];
-                    self.drag_data = null;
-                    if(!dragged || dragged[0] === dropped[0]) {
-                        return;
-                    }
-
-                    dragged.remove();
-                    dropped.before(dragged);
-                    self.init_preview(dragged);
-                });
-                
-                return view;
-            },
-
-            hide_item: function(data_id) {
-                var block = $("#ui-blocks").find(".sheet-block-item-bk[data-id='" + data_id + "']");
-                block.attr('draggable', 'false');
-                block.css({'background-color': '#ebebeb', cursor: 'default'});
-                block.find('.sheet-block-item-text').addClass('z-bottom');
-            },
-
-            show_item: function(data_id) {
-                var block = $("#ui-blocks").find(".sheet-block-item-bk[data-id='" + data_id + "']");
-                block.attr('draggable', 'true');
-                block.css({'background-color': '#c9e653', cursor: 'pointer'});
-                block.find('.sheet-block-item-text').removeClass('z-bottom');
-            },
-
-            onDragBlock: function() {
-                var self = this;
-
-                $(document).on('dragstart', '.sheet-block-item-bk', function(e) {
-                    e.stopPropagation();
-                    console.log('drag start');
-                    var block = $(e.currentTarget);
-                    block.css('opacity', 0.4);
-                    if(block.attr('data-id') !== undefined && block.attr('data-id') !== false) {
-                        self.drag_data = {
-                            'data-id': block.attr('data-id'),
-                            'preview-title': block.find('.sheet-block-item-text').text()
-                        };
-                    }
-                });
-
-                $(document).on('dragend', '.sheet-block-item-bk', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('drag end');
-                    $(e.currentTarget).css('opacity', 1.0);
-                });
-
-                $(document).on('dragover', '#div-preview', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
-
-                $(document).on('drop', '#div-preview', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('dropped');
-                    if(!self.drag_data) {
-                        return;
-                    }
-
-                    var data_id = self.drag_data['data-id'];
-                    var title = self.drag_data['preview-title'];
-                    self.drag_data = null;
-                    
-                    if(data_id) {
-                        self.add_preview(title, data_id, e.currentTarget);
-                        self.hide_item(data_id);
-                    }
-                });
-            },
-
-            initFields: function() {
-                data = [
-                    {
-                        data_id: 'Abigail',
-                        block_title: 'Abigail Williams'
-                    },
-                    {
-                        data_id: 'Illya',
-                        block_title: 'Illya Von Einzbern'
-                    },
-                    {
-                        data_id: 'BB',
-                        block_title: 'BB Channel'
-                    }
-                ];
-                var list = $('#ui-blocks').find('.sheet-block-body')[0];
-                for(var key in data) {
-                    var view = $(Mustache.render(this.block_template, {data_id: data[key]['data_id'], block_title: data[key]['block_title']}));
-                    view.appendTo(list);
-                }
-            },
-
-            init: function() {
-                Mustache.parse(this.preview_template);
-                Mustache.parse(this.block_template);
-                this.initFields();
-                this.onDragBlock();
-            }
+        </script>
             
-        };
+        <script id="preview-template" type="x-tmpl-mustache">
+            <div class="sheet-preview display-none" data-id="{{data_id}}" id="{{preview_id}}" draggable="true">
+                <div class="p-2 sheet-preview-head">
+                    <div class=""><b>{{preview_title}}</b></div>
+                    <div class="">
+                        <button type="button" class="btn btn-primary btn-sm btn-block btn-collapse">Collapse</button>
+                    </div>
+                </div>
+                <div>
+                    <img src="./{{data_id}}.jpg" alt="{{data_id}}.jpg" height="150" width="150">
+                </div>
+            </div>
+        </script>
 
-        Sheet.init();
-    })(jQuery);
-</script>
+        <script src="./sheet.js"></script>
+    </body>
+</html>
