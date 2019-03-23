@@ -119,6 +119,7 @@ var Sheet = null;
                 e.stopPropagation();
                 console.log('drag start');
                 var block = $(e.currentTarget);
+                e.originalEvent.dataTransfer.setData("text", "stupid fox");
                 block.css('opacity', 0.4);
                 if(block.attr('data-id') !== undefined && block.attr('data-id') !== false) {
                     self._dragData = {
